@@ -33,7 +33,7 @@ function getOneTodo(req, res, db) {
 function postTodos(req, res, db) {
 	const { id, title, todo } = req.body;
 
-	if (!title || !todo) {
+	if (title || !todo) {
 		return res.status(400).json({ error: "Title & Todo are required" });
 	}
 	db("todos")

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Delete Todos</title>
+	</head>
+	<body>
+		<h1>Delete todo</h1>
+		<button>Delete</button>
+		<script>
+			const btn = document.querySelector("button");
+			const path = location.pathname;
+			console.log(path);
+			const splitPath = path.split("/");
+			console.log(splitPath)
+
+			btn.addEventListener("click", () => {
+               fetch(`http://localhost:3000/todos/${splitPath[2]}/deleteTask`, {
+               	method: "delete"
+               })
+               .then(() => {
+               	window.location = "/create";
+               })
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Create Todos</title>
+		<style type="text/css">
+			textarea {
+				width: 200px;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" name="" />
+		<textarea></textarea>
+		<button type="submit">post</button>
+		<script>
+			const textArea = document.querySelector("textarea");
+			const inputTitle = document.querySelector("input");
+			const btn = document.querySelector("button");
+			   const body = document.body;
+
+			console.log(textArea.value);
+
+			btn.addEventListener("click", () => {
+				fetch("http://localhost:3000/todos", {
+					method: "post",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ title: inputTitle.value,  todo: textArea.value }),
+				})
+				.then(() => {
+			                     		window.location.reload();
+			              })
+			});
+
+			fetch("http://localhost:3000/allTodos")
+				.then((res) => res.json())
+				.then((data) => {
+					data.forEach((x, i) => {
+						const allTodos = document.createElement("p");
+						const allTodosTitle = document.createElement("h2");
+						body.appendChild(allTodosTitle);
+						body.appendChild(allTodos);
+                        allTodosTitle.textContent = x.title;
+						allTodos.textContent = x.todo;
+						const delBtn = document.createElement("button");
+			                     body.appendChild(delBtn);
+			                     delBtn.textContent = "Delete";
+
+			                     console.log(x.id);
+
+			                     delBtn.addEventListener('click', () => {
+			                     	// fetch(`http://localhost:3000/todos/${x.id}/deleteTask`, {
+			                     	// 	method: "delete"
+			                     	// })
+			                     	// .then(() => {
+			                     	// 	window.location.reload();
+			                     	// })
+			                     	// window.location.href = `delete/${x.id}/deleteTask`
+			                     	window.location.href = `todos/${x.id}/deleteTask`
+			                     })
+					});
+				});
+		</script>
+	</body>
+</html>
